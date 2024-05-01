@@ -8,7 +8,7 @@ export const getJobs = createAsyncThunk(
       const response = await axios.get(
         "https://api.weekday.technology/adhoc/getSampleJdJSON",
         {
-          limit,
+          limit: 10,
           offset,
         },
         {

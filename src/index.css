@@ -1,8 +1,15 @@
 * {
-  font-family: "Poppins";
+  font-family: "Lexend";
   padding : 0px;
   margin: 0px;
   box-sizing: border-box;
+}
+
+.MuiTypography-root {
+  font-family: "Lexend" !important;
+}
+.MuiButton-root {
+text-transform: none !important;
 }
 
 
