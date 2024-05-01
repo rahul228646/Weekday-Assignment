@@ -1,0 +1,14 @@
+.listing-area-root {
+    display: flex;
+}
+
+.listing-area-laoding {
+    width: 100vw;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.listing-area-card-content {
+    
+}

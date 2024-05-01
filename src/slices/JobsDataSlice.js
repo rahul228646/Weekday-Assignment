@@ -5,11 +5,11 @@ export const getJobs = createAsyncThunk(
   "jobsData/getJobsData",
   async ({ limit, offset }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         "https://api.weekday.technology/adhoc/getSampleJdJSON",
         {
-          limit: 10,
-          offset,
+          limit: limit,
+          offset: offset,
         },
         {
           "Content-Type": "application/json",
@@ -34,9 +34,19 @@ export const jobsDataSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getJobs.pending, (state, action) => {})
-      .addCase(getJobs.fulfilled, (state, action) => {})
-      .addCase(getJobs.rejected, (state, action) => {});
+      .addCase(getJobs.pending, (state, action) => {
+        state.jobsDataLoading = true;
+      })
+      .addCase(getJobs.fulfilled, (state, action) => {
+        state.jobsDataLoading = false;
+        state.jobsData = action.payload?.jdList;
+      })
+      .addCase(getJobs.rejected, (state, action) => {
+        state.jobsDataLoading = false;
+        state.jobsDataError = action.payload;
+      });
   },
 });
+export const selectJobsData = (state) => state.jobsData.jobsData;
+export const selectJobDataLoading = (state) => state.jobsData.jobsDataLoading;
 export default jobsDataSlice.reducer;
