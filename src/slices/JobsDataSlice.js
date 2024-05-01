@@ -23,7 +23,7 @@ export const getJobs = createAsyncThunk(
 );
 
 const initialState = {
-  jobsData: null,
+  jobsData: [],
   jobsDataLoading: false,
   jobsDataError: "",
 };
@@ -39,7 +39,7 @@ export const jobsDataSlice = createSlice({
       })
       .addCase(getJobs.fulfilled, (state, action) => {
         state.jobsDataLoading = false;
-        state.jobsData = action.payload?.jdList;
+        state.jobsData = [...state.jobsData, ...action.payload?.jdList];
       })
       .addCase(getJobs.rejected, (state, action) => {
         state.jobsDataLoading = false;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getJobs,
@@ -13,21 +13,40 @@ const ListingArea = () => {
   const dispatch = useDispatch();
   const jobsDataLoading = useSelector((state) => selectJobDataLoading(state));
   const jobsData = useSelector((state) => selectJobsData(state));
+  const [offset, setOffset] = useState(0);
+  let limit = 12;
+
+  const handleInfiniteScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 20 >
+      document.documentElement.scrollHeight
+    ) {
+      setOffset((prev) => prev + limit);
+    }
+  };
+
   useEffect(() => {
-    let limit = 12;
-    let offset = 0;
     dispatch(getJobs({ limit, offset }));
+  }, [offset]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleInfiniteScroll);
+    return () => {
+      window.removeEventListener("scroll", handleInfiniteScroll);
+    };
   }, []);
+
   return (
     <div className="listing-area-root">
-      {jobsDataLoading ? (
-        <div className="listing-area-laoding"><CircularProgress/></div>
-      ) : (
-        <Grid container spacing={4} className="listing-area-card-content">
-          {jobsData?.map((job) => (
-            <JobCard key={job?.jdUid} data={job} />
-          ))}
-        </Grid>
+      <Grid container spacing={4} className="listing-area-card-content">
+        {jobsData?.map((job) => (
+          <JobCard key={job?.jdUid} data={job} />
+        ))}
+      </Grid>
+      {jobsDataLoading && (
+        <div className="listing-area-laoding">
+          <CircularProgress />
+        </div>
       )}
     </div>
   );

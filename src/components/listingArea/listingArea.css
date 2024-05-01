@@ -1,5 +1,7 @@
 .listing-area-root {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .listing-area-laoding {
@@ -7,6 +9,7 @@
     height: 20%;
     display: flex;
     justify-content: center;
+ padding: 40px;
 }
 
 .listing-area-card-content {
