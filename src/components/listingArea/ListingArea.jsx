@@ -7,14 +7,14 @@ import {
 } from "../../slices/JobsDataSlice";
 import JobCard from "../jobCard/JobCard";
 import "./listingArea.css";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 
 const ListingArea = () => {
   const dispatch = useDispatch();
   const jobsDataLoading = useSelector((state) => selectJobDataLoading(state));
   const jobsData = useSelector((state) => selectJobsData(state));
   useEffect(() => {
-    let limit = 2;
+    let limit = 12;
     let offset = 0;
     dispatch(getJobs({ limit, offset }));
   }, []);
@@ -23,11 +23,11 @@ const ListingArea = () => {
       {jobsDataLoading ? (
         <div className="listing-area-laoding"><CircularProgress/></div>
       ) : (
-        <div className="listing-area-card-content">
+        <Grid container spacing={4} className="listing-area-card-content">
           {jobsData?.map((job) => (
             <JobCard key={job?.jdUid} data={job} />
           ))}
-        </div>
+        </Grid>
       )}
     </div>
   );
