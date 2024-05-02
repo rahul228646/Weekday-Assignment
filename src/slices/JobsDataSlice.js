@@ -27,7 +27,7 @@ const initialState = {
   jobsDataLoading: false,
   jobsDataError: "",
   jobFilters: {},
-
+  totalCount: null,
 };
 
 export const jobsDataSlice = createSlice({
@@ -46,6 +46,7 @@ export const jobsDataSlice = createSlice({
       })
       .addCase(getJobs.fulfilled, (state, action) => {
         state.jobsDataLoading = false;
+        state.totalCount = action?.payload?.totalCount;
         state.jobsData = [...state.jobsData, ...action.payload?.jdList];
       })
       .addCase(getJobs.rejected, (state, action) => {
@@ -58,5 +59,6 @@ export const { handleFiltering } = jobsDataSlice.actions;
 export const selectJobsData = (state) => state.jobsData.jobsData;
 export const selectJobDataLoading = (state) => state.jobsData.jobsDataLoading;
 export const selectJobFilters = (state) => state.jobsData.jobFilters;
+export const selectTotalCount = (state) => state.jobsData.totalCount;
 
 export default jobsDataSlice.reducer;

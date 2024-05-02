@@ -5,6 +5,7 @@ import {
   selectJobDataLoading,
   selectJobFilters,
   selectJobsData,
+  selectTotalCount,
 } from "../../slices/JobsDataSlice";
 import JobCard from "../jobCard/JobCard";
 import "./listingArea.css";
@@ -15,11 +16,13 @@ import NoData from "../noData/NoData";
 
 const ListingArea = () => {
   const dispatch = useDispatch();
+  const totalCount = useSelector((state) => selectTotalCount(state));
   const jobsDataLoading = useSelector((state) => selectJobDataLoading(state));
   const jobsData = useSelector((state) => selectJobsData(state));
   const jobFilters = useSelector((state) => selectJobFilters(state));
   const [filteredJobs, setFilteredJobs] = useState();
   const [offset, setOffset] = useState(0);
+
   let limit = 12;
   const observer = useRef();
   const lastJobRef = useCallback(
@@ -27,7 +30,7 @@ const ListingArea = () => {
       if (jobsDataLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && offset < totalCount) {
           setOffset((prev) => prev + limit);
         }
       });
