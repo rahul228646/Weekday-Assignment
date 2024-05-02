@@ -23,7 +23,7 @@ const ListingArea = () => {
   const [filteredJobs, setFilteredJobs] = useState();
   const [offset, setOffset] = useState(0);
 
-  let limit = 12;
+  let limit = 100;
   const observer = useRef();
   const lastJobRef = useCallback(
     (node) => {
@@ -52,17 +52,19 @@ const ListingArea = () => {
     <div className="listing-area-root">
       <Filters />
       <Grid container spacing={4} className="listing-area-card-content">
-        {filteredJobs?.length > 0
-          ? filteredJobs?.map((job, index) => {
+        {filteredJobs?.length > 0 && (
+          <>
+            {filteredJobs?.map((job, index) => {
               if (index + 1 === filteredJobs?.length) {
-                return (
-                  <JobCard key={job?.jdUid} data={job} reference={lastJobRef} />
-                );
+                return <JobCard key={job?.jdUid} data={job} />;
               } else {
                 return <JobCard key={job?.jdUid} data={job} />;
               }
-            })
-          : !jobsDataLoading && <NoData />}
+            })}
+            <div ref={lastJobRef}></div>
+          </>
+        )}
+
         {jobsDataLoading && (
           <div className="listing-area-laoding">
             <CircularProgress />
