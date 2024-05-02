@@ -26,7 +26,7 @@ const initialState = {
   jobsData: [],
   jobsDataLoading: false,
   jobsDataError: "",
-  jobFilters: JSON.parse(sessionStorage.getItem("jobFilters")),
+  jobFilters: JSON.parse(sessionStorage.getItem("jobFilters")) || {},
   totalCount: null,
 };
 
