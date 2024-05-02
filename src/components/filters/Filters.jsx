@@ -1,22 +1,12 @@
-import {
-  Autocomplete,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleFiltering, selectJobFilters } from "../../slices/JobsDataSlice";
 
 const Filters = () => {
   const dispatch = useDispatch();
-  const jobFilter = useSelector((state) => selectJobFilters(state));
-  const remoteOptions = [
-    { filterName: "Remote", filterValue: "remote" },
-    { filterName: "Remote", filterValue: "In-office" },
-  ];
+  const [selectedRemote, setSelectedRemote] = useState([]);
+  const remoteOptions = ["remote", "in-office"];
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
@@ -33,6 +23,7 @@ const Filters = () => {
           )
         }
       />
+
       <TextField
         placeholder="Search Location"
         name="location"
@@ -74,24 +65,22 @@ const Filters = () => {
           )
         }
       />
-      {/* <Autocomplete
+      <Autocomplete
+        sx={{ minWidth: "200px" }}
         multiple
+        id="tags-standard"
         options={remoteOptions}
-        disableCloseOnSelect
-        isOptionEqualToValue={(option, value) =>
-          option?.filterName === value?.filterName
-        }
-        getOptionLabel={(option) => option?.filterName}
-        renderTags={() => null}
-        onChange={(e, newValue) => console.log(newValue)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="outlined"
-            placeholder="Select Countries"
-          />
-        )}
-      /> */}
+        getOptionLabel={(option) => option}
+        renderInput={(params) => <TextField {...params} placeholder="remote" />}
+        onChange={(e, newValue) => {
+          dispatch(
+            handleFiltering({
+              filterName: "remote",
+              filterValue: newValue,
+            })
+          );
+        }}
+      />
     </div>
   );
 };

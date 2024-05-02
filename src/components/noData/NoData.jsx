@@ -14,8 +14,8 @@ const NoData = () => {
         marginTop: "100px",
       }}
     >
-      <img src={"/src/assets/not-found.png"} />
-      <Typography>No Jobs available for this category at the moment</Typography>
+      <img src={"/src/assets/not-found.png"} height={150} width={150}/>
+      <Typography fontWeight={700}>No Jobs available for this category at the moment</Typography>
     </div>
   );
 };

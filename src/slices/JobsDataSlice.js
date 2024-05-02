@@ -35,7 +35,7 @@ export const jobsDataSlice = createSlice({
   reducers: {
     handleFiltering(state, action) {
       const { filterName, filterValue } = action.payload;
-      state.jobFilters = {...state.jobFilters, [filterName] : filterValue};
+      state.jobFilters = { ...state.jobFilters, [filterName]: filterValue };
     },
   },
   extraReducers(builder) {

@@ -27,6 +27,16 @@ const compareExp = (value, filters, min, max) => {
     : value[max] != null && filters[min] <= value[max];
 };
 
+const compareRemote = (value, array) => {
+  if (array?.includes("remote") && !array.includes("in-office")) {
+    return value["location"] === "remote";
+  } else if (!array?.includes("remote") && array.includes("in-office")) {
+    return value["location"] !== "remote";
+  } else {
+    return true;
+  }
+};
+
 export const filterJobs = (data, filters) => {
   return data?.filter((value) => {
     let flag = true;
@@ -42,6 +52,8 @@ export const filterJobs = (data, filters) => {
           filters[filterName] === 0
             ? flag
             : flag && compareExp(value, filters, "minExp", "maxExp");
+      } else if (filterName === "remote") {
+        flag = flag && compareRemote(value, filters[filterName]);
       } else {
         flag = flag && value[filterName]?.includes(filters[filterName]);
       }
