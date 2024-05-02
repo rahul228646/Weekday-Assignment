@@ -19,7 +19,7 @@ const Filters = () => {
   ];
 
   return (
-    <div className="filters-root">
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
       <TextField
         placeholder="Search Role"
         name="jobRole"

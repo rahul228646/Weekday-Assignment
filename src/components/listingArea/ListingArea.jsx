@@ -11,6 +11,7 @@ import "./listingArea.css";
 import { CircularProgress, Grid } from "@mui/material";
 import Filters from "../filters/Filters";
 import { filterJobs } from "../../utils";
+import NoData from "../noData/NoData";
 
 const ListingArea = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,6 @@ const ListingArea = () => {
       setOffset((prev) => prev + limit);
     }
   };
-
 
   useEffect(() => {
     setFilteredJobs(filterJobs(jobsData, jobFilters));
@@ -51,9 +51,9 @@ const ListingArea = () => {
     <div className="listing-area-root">
       <Filters />
       <Grid container spacing={4} className="listing-area-card-content">
-        {filteredJobs?.map((job) => (
-          <JobCard key={job?.jdUid} data={job} />
-        ))}
+        {filteredJobs?.length > 0
+          ? filteredJobs?.map((job) => <JobCard key={job?.jdUid} data={job} />)
+          : !jobsDataLoading && <NoData />}
         {jobsDataLoading && (
           <div className="listing-area-laoding">
             <CircularProgress />
