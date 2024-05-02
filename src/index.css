@@ -11,5 +11,8 @@
 .MuiButton-root {
 text-transform: none !important;
 }
-
+.MuiInputBase-root {
+  height: 40px;
+  width: 200px;
+}
 
