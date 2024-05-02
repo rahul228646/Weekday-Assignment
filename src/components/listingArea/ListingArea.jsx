@@ -40,6 +40,7 @@ const ListingArea = () => {
   );
 
   useEffect(() => {
+    if (observer.current) observer.current.disconnect();
     setFilteredJobs(filterJobs(jobsData, jobFilters));
   }, [jobsData, jobFilters]);
 
@@ -55,17 +56,16 @@ const ListingArea = () => {
           <>
             {filteredJobs?.map((job, index) => {
               if (index + 1 === filteredJobs?.length) {
-                return <JobCard key={job?.jdUid} data={job} />;
+                return <JobCard key={job?.jdUid} data={job} reference={lastJobRef}/>;
               } else {
                 return <JobCard key={job?.jdUid} data={job} />;
               }
             })}
-            <div ref={lastJobRef}></div>
           </>
         ) : (
           !jobsDataLoading && <NoData />
         )}
-
+   
         {jobsDataLoading && (
           <div className="listing-area-laoding">
             <CircularProgress />

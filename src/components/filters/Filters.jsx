@@ -44,12 +44,13 @@ const Filters = () => {
         placeholder="Min Base Pay Salary"
         name="minJdSalary"
         variant="outlined"
-        value={"minJdSalary" in jobFilters ? jobFilters["minJdSalary"] : ""}
+        value={"minJdSalary" in jobFilters ? jobFilters["minJdSalary"] : null}
         onChange={(e) =>
           dispatch(
             handleFiltering({
               filterName: e.target.name,
-              filterValue: Number(e.target.value),
+              filterValue:
+                e.target.value === "" ? null : Number(e.target.value),
             })
           )
         }
@@ -59,12 +60,13 @@ const Filters = () => {
         placeholder="Experience"
         name="minExp"
         variant="outlined"
-        value={"minExp" in jobFilters ? jobFilters["minExp"] : ""}
+        value={"minExp" in jobFilters ? jobFilters["minExp"] : null}
         onChange={(e) =>
           dispatch(
             handleFiltering({
               filterName: e.target.name,
-              filterValue: Number(e.target.value),
+              filterValue:
+                e.target.value === null ? "" : Number(e.target.value),
             })
           )
         }
