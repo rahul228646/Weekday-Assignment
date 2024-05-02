@@ -5,7 +5,7 @@ import { handleFiltering, selectJobFilters } from "../../slices/JobsDataSlice";
 
 const Filters = () => {
   const dispatch = useDispatch();
-  const [selectedRemote, setSelectedRemote] = useState([]);
+  const jobFilters = useSelector((state) => selectJobFilters(state));
   const remoteOptions = ["remote", "in-office"];
 
   return (
@@ -14,6 +14,7 @@ const Filters = () => {
         placeholder="Search Role"
         name="jobRole"
         variant="outlined"
+        value={"jobRole" in jobFilters ? jobFilters["jobRole"] : ""}
         onChange={(e) =>
           dispatch(
             handleFiltering({
@@ -28,6 +29,7 @@ const Filters = () => {
         placeholder="Search Location"
         name="location"
         variant="outlined"
+        value={"location" in jobFilters ? jobFilters["location"] : ""}
         onChange={(e) =>
           dispatch(
             handleFiltering({
@@ -42,6 +44,7 @@ const Filters = () => {
         placeholder="Min Base Pay Salary"
         name="minJdSalary"
         variant="outlined"
+        value={"minJdSalary" in jobFilters ? jobFilters["minJdSalary"] : ""}
         onChange={(e) =>
           dispatch(
             handleFiltering({
@@ -56,6 +59,7 @@ const Filters = () => {
         placeholder="Experience"
         name="minExp"
         variant="outlined"
+        value={"minExp" in jobFilters ? jobFilters["minExp"] : ""}
         onChange={(e) =>
           dispatch(
             handleFiltering({
@@ -70,6 +74,7 @@ const Filters = () => {
         multiple
         id="tags-standard"
         options={remoteOptions}
+        value={"remote" in jobFilters ? jobFilters["remote"] : []}
         getOptionLabel={(option) => option}
         renderInput={(params) => <TextField {...params} placeholder="remote" />}
         onChange={(e, newValue) => {

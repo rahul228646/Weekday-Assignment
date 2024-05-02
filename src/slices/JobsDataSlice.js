@@ -26,7 +26,7 @@ const initialState = {
   jobsData: [],
   jobsDataLoading: false,
   jobsDataError: "",
-  jobFilters: {},
+  jobFilters: JSON.parse(sessionStorage.getItem("jobFilters")),
   totalCount: null,
 };
 
@@ -37,6 +37,7 @@ export const jobsDataSlice = createSlice({
     handleFiltering(state, action) {
       const { filterName, filterValue } = action.payload;
       state.jobFilters = { ...state.jobFilters, [filterName]: filterValue };
+      sessionStorage.setItem("jobFilters", JSON.stringify(state.jobFilters));
     },
   },
   extraReducers(builder) {
