@@ -4,7 +4,7 @@ import { Button, Grid, Typography } from "@mui/material";
 import JobDescriptionModal from "./JobDescriptionModal";
 import { numberToCurrency } from "../../utils";
 
-const JobCard = ({ data }) => {
+const JobCard = ({ data, reference }) => {
   const {
     jobRole,
     location,
@@ -19,7 +19,7 @@ const JobCard = ({ data }) => {
   } = data;
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3} ref={reference}>
       <div className="job-card-root">
         <div className="job-card-content">
           <div className="job-card-header">

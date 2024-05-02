@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getJobs,
@@ -21,15 +21,21 @@ const ListingArea = () => {
   const [filteredJobs, setFilteredJobs] = useState();
   const [offset, setOffset] = useState(0);
   let limit = 12;
-
-  const handleInfiniteScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop + 40 >
-      document.documentElement.scrollHeight
-    ) {
-      setOffset((prev) => prev + limit);
-    }
-  };
+  const observer = useRef();
+  const lastJobRef = useCallback(
+    (node) => {
+      if (jobsDataLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setOffset((prev) => prev + limit);
+        }
+      });
+      if (node) observer.current.observe(node);
+      console.log(node);
+    },
+    [jobsDataLoading]
+  );
 
   useEffect(() => {
     setFilteredJobs(filterJobs(jobsData, jobFilters));
@@ -39,20 +45,20 @@ const ListingArea = () => {
     dispatch(getJobs({ limit, offset }));
   }, [offset]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleInfiniteScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleInfiniteScroll);
-    };
-  }, []);
-
   return (
     <div className="listing-area-root">
       <Filters />
       <Grid container spacing={4} className="listing-area-card-content">
         {filteredJobs?.length > 0
-          ? filteredJobs?.map((job) => <JobCard key={job?.jdUid} data={job} />)
+          ? filteredJobs?.map((job, index) => {
+              if (index + 1 === filteredJobs?.length) {
+                return (
+                  <JobCard key={job?.jdUid} data={job} reference={lastJobRef} />
+                );
+              } else {
+                return <JobCard key={job?.jdUid} data={job} />;
+              }
+            })
           : !jobsDataLoading && <NoData />}
         {jobsDataLoading && (
           <div className="listing-area-laoding">

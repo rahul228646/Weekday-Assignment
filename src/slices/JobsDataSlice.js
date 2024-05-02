@@ -27,6 +27,7 @@ const initialState = {
   jobsDataLoading: false,
   jobsDataError: "",
   jobFilters: {},
+
 };
 
 export const jobsDataSlice = createSlice({
