@@ -23,7 +23,7 @@ const ListingArea = () => {
   const [filteredJobs, setFilteredJobs] = useState();
   const [offset, setOffset] = useState(0);
 
-  let limit = 100;
+  let limit = 12;
   const observer = useRef();
   const lastJobRef = useCallback(
     (node) => {
@@ -35,7 +35,6 @@ const ListingArea = () => {
         }
       });
       if (node) observer.current.observe(node);
-      console.log(node);
     },
     [jobsDataLoading]
   );
@@ -52,7 +51,7 @@ const ListingArea = () => {
     <div className="listing-area-root">
       <Filters />
       <Grid container spacing={4} className="listing-area-card-content">
-        {filteredJobs?.length > 0 && (
+        {filteredJobs?.length > 0 ? (
           <>
             {filteredJobs?.map((job, index) => {
               if (index + 1 === filteredJobs?.length) {
@@ -63,6 +62,8 @@ const ListingArea = () => {
             })}
             <div ref={lastJobRef}></div>
           </>
+        ) : (
+          !jobsDataLoading && <NoData />
         )}
 
         {jobsDataLoading && (
